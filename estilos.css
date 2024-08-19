@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    background-color: #FFFFFF;
+    color: #2C3E50;
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    font-family: Arial, sans-serif;
+    /*justify-content: space-between;*/
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 0px;
+  }
+
+  header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #2C3E50;
+    color: #FFFFFF;
+  }
+  
+  .titulo-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .perfil{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .perfil p {
+    font-size: 14px;
+    text-align: center;
+    background-color: #0aa35b;
+    border-radius: 4px;
+    color: aliceblue;
+    border: 1px solid #ffffff
+  }
+
+  .perfil img {
+    border: solid 3px #ffffff;
+    border-radius: 4px;
+  }
+
+  main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    width: 100vw;
+  }
+
+  .contenedor-lista {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  .divForms {
+    width: 40%;
+    padding: 10px;
+    margin: 40px 0px;
+    box-shadow: 0px 0px 15px 0px #4f504f;
+    border-radius: 7px;
+  }
+
+  .divForms input {
+    display: inline-block;
+    width: 90%;
+    border: 1px solid #cdd5cd;
+    margin-right: 10px;
+    padding: 15px;
+    border-radius: 7px;
+  }
+
+  form {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  form a {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+  }
+
+
+  a {
+    cursor: pointer;
+  }
+
+  .iconos {
+    width: 90px;
+  }
+
+  .status {
+    width: 120px;
+  }
+
+  button {
+    background-color: #0aa35b;
+    color: #FFFFFF;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  button:hover {
+    background-color: #27AE60;
+  }
+
+  .botonEdit{
+    background-color: #ec9154;
+    color: #FFFFFF;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .botonEdit:hover{
+    background-color: #ec7b30;
+  }
+  
+
+  .lista {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin: 0px 0px;
+    border-collapse: collapse;
+    box-shadow: 0px 0px 15px 0px #4f504f;
+    border-radius: 7px;
+    padding-bottom: 8px;
+    height: 50vh;
+    overflow: auto;
+  }
+
+  .tarea {
+    width: 300px;
+  }
+
+  .colorTarea {
+    color: #a30a30;
+    text-decoration: line-through;
+    font-weight: bold;
+    width: 300px;
+  }
+
+  .colorStatus{
+    color: #0aa35b;
+    font-weight: bold;
+    width: 120px;
+  }
+
+  .ListTaskHtml {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  ul {
+    margin-top: 10px;
+  }
+
+  li {
+    /*text-decoration: none;*/
+    padding: 2px;
+    margin: 3px 0px 0px 0px;
+    border: solid 1px #cdd5cd;
+    border-radius: 4px;
+  }
+
+  .alerta {
+    display: none;
+    background-color: #F1C40F;
+    color: #2C3E50;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: 4px;
+  }
+
+  .listaCompletada {
+    text-decoration: line-through;
+    color: rgb(238, 11, 11);
+  }
+
+  .div-footer {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: #2C3E50;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .mostrarEdit {
+    display: none !important;
+  }
+
+  .divEdit {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: #dde0e4;
+    border: solid 1px #000;
+  }
+  .divEdit label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .divEdit input {
+    padding: 5px;
+    border-radius: 4px;
+  }
+
+  .divEdit button {
+    background-color: #c9131d;
+    color: #FFFFFF;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 150px;
+    margin-top: 8px;
+  }
+
+  .divEdit button:hover {
+    background-color: #c0392b;
+  }
+  
+
+ 
