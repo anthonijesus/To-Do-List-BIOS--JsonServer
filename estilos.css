@@ -4,13 +4,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
     background-color: #FFFFFF;
     color: #2C3E50;
     font-size: 12px;
-    font-family: 'Poppins', sans-serif;
     display: flex;
     font-family: Arial, sans-serif;
     /*justify-content: space-between;*/
@@ -23,7 +23,8 @@ body {
 
   header{
     display: flex;
-    justify-content: space-between;
+    
+    
     align-items: center;
     width: 100%;
     background-color: #2C3E50;
@@ -35,7 +36,14 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    gap: 10px;
+    gap: 30px;
+    font-size: 20px;
+  }
+
+  @media(max-width: 768px){
+    .titulo-header{
+      font-size: 15px;
+    }
   }
 
   .perfil{
@@ -46,17 +54,34 @@ body {
   }
   
   .perfil p {
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
     background-color: #0aa35b;
     border-radius: 4px;
     color: aliceblue;
-    border: 1px solid #ffffff
+    border: 1px solid #ffffff;
+    padding: 7px;
+  }
+
+  @media(max-width: 768px){
+    .perfil p {
+      font-size: 11px;
+      padding: 2px;
+    }
   }
 
   .perfil img {
     border: solid 3px #ffffff;
     border-radius: 4px;
+    width: 50px;
+    height: 50px;
+  }
+
+  @media(max-width: 768px){
+    .perfil img {
+      width: 42px;
+      height: 42px;
+    }
   }
 
   main {
@@ -67,12 +92,22 @@ body {
     width: 100vw;
   }
 
-  .contenedor-lista {
+  /*.contenedor-lista {
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 50%;
   }
+
+  @media(max-width: 768px){
+    .contenedor-lista{
+      width: 95%;
+      padding: 10px;
+      margin: 40px 0px;
+      box-shadow: 0px 0px 15px 0px #4f504f;
+      border-radius: 7px;
+    }
+  }*/
 
   .divForms {
     width: 40%;
@@ -81,6 +116,19 @@ body {
     box-shadow: 0px 0px 15px 0px #4f504f;
     border-radius: 7px;
   }
+
+  @media(max-width: 768px){
+    .divForms {
+      width: 95%;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .divForms {
+        width: 70%;
+    }
+}
+
 
   .divForms input {
     display: inline-block;
@@ -130,7 +178,7 @@ body {
   }
 
   .botonEdit{
-    background-color: #ec9154;
+    background-color: #ec7b30;
     color: #FFFFFF;
     border: none;
     padding: 5px 10px;
@@ -139,7 +187,7 @@ body {
   }
   
   .botonEdit:hover{
-    background-color: #ec7b30;
+    background-color: #ec9154;
   }
   
 
@@ -148,7 +196,7 @@ body {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 40%;
     margin: 0px 0px;
     border-collapse: collapse;
     box-shadow: 0px 0px 15px 0px #4f504f;
@@ -156,6 +204,18 @@ body {
     padding-bottom: 8px;
     height: 50vh;
     overflow: auto;
+  }
+
+  @media(max-width: 768px){
+    .lista {
+      width: 95%;
+    }
+  }
+
+  @media((min-width: 769px) and (max-width: 1024px)){
+    .lista {
+      width: 70%;
+    }
   }
 
   .tarea {
@@ -175,25 +235,24 @@ body {
     width: 120px;
   }
 
-  .ListTaskHtml {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-  }
-
   ul {
+    width: 95%;
     margin-top: 10px;
   }
 
   li {
-    /*text-decoration: none;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    text-align: center;
+    gap: 10px;
     padding: 2px;
     margin: 3px 0px 0px 0px;
     border: solid 1px #cdd5cd;
     border-radius: 4px;
   }
+ 
 
   .alerta {
     display: none;
@@ -204,6 +263,7 @@ body {
     padding: 5px;
     margin: 10px 0;
     border-radius: 4px;
+    text-align: center;
   }
 
   .listaCompletada {
@@ -232,39 +292,6 @@ body {
 
   .mostrarEdit {
     display: none !important;
-  }
-
-  .divEdit {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    background-color: #dde0e4;
-    border: solid 1px #000;
-  }
-  .divEdit label {
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-
-  .divEdit input {
-    padding: 5px;
-    border-radius: 4px;
-  }
-
-  .divEdit button {
-    background-color: #c9131d;
-    color: #FFFFFF;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 150px;
-    margin-top: 8px;
-  }
-
-  .divEdit button:hover {
-    background-color: #c0392b;
   }
   
 

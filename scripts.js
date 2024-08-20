@@ -36,19 +36,19 @@ function saveTask(event) {
   //console.log(task)
 
   if (task.tarea === "") {
-          const alert = document.getElementById("alerta");
-          const insertAlert = document.createElement("p");
+          const alerta = document.getElementById("alerta");
+          const parrafoAlerta = document.getElementById("parrafoAlerta");
         setTimeout(function() {
           document.getElementById('IngresaTarea').style.display = 'none';
           document.getElementById('alerta').style.display = 'flex';
-          insertAlert.textContent = "No se ingreso ninguna tarea para registrar a la lista¡"; 
-          alert.appendChild(insertAlert);
+          parrafoAlerta.textContent = "No se ingreso ninguna tarea para registrar a la lista¡"; 
+          alerta.appendChild(parrafoAlerta);
         }, 100);
 
         setTimeout(function() {
           document.getElementById('alerta').style.display = 'none';
           document.getElementById('IngresaTarea').style.display = 'flex';
-          insertAlert.textContent = "";
+          //insertAlert.textContent = "";
         }, 1900);
   } else {
     //5. Almacenar el formulario en el local storage
@@ -69,16 +69,15 @@ function displayTask(task) {
 
   const listTasksHtml = task.map((task) => {
     return `
-              <li class="ListTaskHtml">
+              <li>
                 <p id="fecha-${task.id}">${task.fecha}</p>
                 <p class="tarea" id="tarea-${task.id}">${task.tarea}</p>
                 <p class="status" id="status-${task.id}">${task.status ? "Completado" : "Pendiente"}</p>
                 <p><input id="checkTarea-${task.id}" type="checkbox" /></p>
                 <div class="iconos">
-                <a onclick="deleteTarea('${task.id}')" id="borrarTarea-${task.id}"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg></a>
-                <a onclick="viewTaskEdit('${task.tarea}', '${task.id}')" id="editarTarea-${task.id}"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg></a>
+                  <a onclick="deleteTarea('${task.id}')" id="borrarTarea-${task.id}"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg></a>
+                  <a onclick="viewTaskEdit('${task.tarea}', '${task.id}')" id="editarTarea-${task.id}"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg></a>
                 </div>
-                
               </li>          
           `;
       });
