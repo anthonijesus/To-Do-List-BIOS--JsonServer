@@ -184,6 +184,7 @@ a {
 @media(max-width: 768px) {
   .lista {
     width: 95%;
+    height: 65vh;
   }
 }
 
