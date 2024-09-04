@@ -9,21 +9,27 @@ function saveLocalStorage(task) {
 
 //========Trae las tareas almacenadas en el localStorage=============//
 function itemLocalStorage() {
-  let task = localStorage.getItem(LOCAL_STORAGE);
-  if (!task) {
-    saveLocalStorage([]);
-    return [];
-  }
-  return JSON.parse(task);
+
+  let tasks = fetch('http://localhost:3000/tasks', {
+    method: 'GET'
+  })
+  .then(response => response.json())
+  .then(data => {
+    //console.log(data);
+    return data;
+  })
+  .catch(error => console.error('Error:', error));
+  return tasks;
 }
 //********************************************************************//
 
 //===============MANEJO DE EVENTOS AL CARGAR LA PAGINA==============//
 document.addEventListener("DOMContentLoaded", () => {
   // Mostrar las tareas almacenadas en el local storage
-  const task = itemLocalStorage();
-
-  displayTask(task);
+  itemLocalStorage().then(tasks => {
+    displayTask(tasks);
+  });
+  
 });
 //********************************************************************/
 
@@ -49,6 +55,7 @@ function displayTask(task) {
         });
 
   listTaskElement.innerHTML = listTasksHtml.join("");
+
   
 //======Recorre la lista de tareas renderizadas en la pantalla para interactar con ellas, marcarlas como completadas, cambiar el color, tachar las completas.
   task.forEach((task) => {
@@ -73,17 +80,40 @@ function displayTask(task) {
 
 //********************Función para marcar las tareas como completadas**********************//
 function checkTarea(param) {
-  let tareas = itemLocalStorage();
-
-  tareas.forEach((task) => {
-    if (task.id === param) {
-      task.status = !task.status;
-    }
+  itemLocalStorage().then(tasks => {
+    tasks.forEach(task => {
+      if (task.id === param) {
+        //console.log(param);
+        //console.log(task.id);
+        task.status = !task.status;
+      }
+    });
+  
+    const taskToUpdate = tasks.find(task => task.id === param);
+    
+    fetch(`http://localhost:3000/tasks/${param}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(taskToUpdate)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      //console.log('Updated task:', data);
+      itemLocalStorage().then(updatedTasks => {
+        displayTask(updatedTasks);
+      });
+    })
+    .catch(error => console.error('Error:', error));
   });
-  saveLocalStorage(tareas);
-
-  displayTask(tareas);
 }
+
 //*****************************************************************************************//
 
 
@@ -93,73 +123,58 @@ const formInput = document.querySelector("#IngresaTarea").addEventListener("subm
 
 //**********************Guarda las nuevas tareas en el localStorage***************************
 function saveTask(event) {
-  // Prevenir que se recarge la página
-  event.preventDefault();
 
-  // Hace referencia al elemento que displaró el evento, en este caso el formulario.
+  event.preventDefault();
   const form = event.target;
 
-  // Captura la información del formulario
   const formData = new FormData(form);
   
-
-  // Crear el objeto con ciertos datos pre-establecidos por defecto 
   let task = {
     fecha: new Date().toLocaleDateString(),
-    id: new Date().getTime(),
+    id: new Date().getTime().toString(),
     tarea: "",
     status: false,
   };
 
   //Recorre el objeto Formdata y por cada elemento del HTML asigna en pares clave y valor
   formData.forEach((value, key) => (task[key] = value));
-  
 
-  if (task.tarea === "") {
-    const alerta = document.getElementById("alerta");
-    const parrafoAlerta = document.getElementById("parrafoAlerta");
-    setTimeout(function () {
-      document.getElementById("IngresaTarea").style.display = "none";
-      document.getElementById("alerta").style.display = "flex";
-      parrafoAlerta.textContent = "No se ingreso ninguna tarea para registrar a la lista¡";
-      alerta.appendChild(parrafoAlerta);
-    }, 100);
-
-    setTimeout(function () {
-      document.getElementById("alerta").style.display = "none";
-      document.getElementById("IngresaTarea").style.display = "flex";
-      //insertAlert.textContent = "";
-    }, 1900);
-  } else {
-    //5. Almacena la nueva tarea en el local storage
-    const taskLocalStorage = itemLocalStorage();
+  // 5. Hacer la petición POST para guardar la nueva tarea
+  fetch(`http://localhost:3000/tasks`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(task) // Enviando todo el objeto 'task'
+  })
+  .then(response => response.json())
+  .then(data => {
+    itemLocalStorage().then(data => {
+      displayTask(data);
+    }); 
     
-    const newTask = [...taskLocalStorage, task];
+  })
+  .catch(error => console.error('Error:', error));
 
-    saveLocalStorage(newTask);
-
-    // 6. Limpiar el formulario
-    form.reset();
-
-    // 7. Listar las tareas previamente almacenadas
-    displayTask(newTask);
-  }
+  form.reset();
+  // 7. Volver a listar las tareas después de guardar
+  
 }
 //**************************************************************************************************** */
 
 //Cierra el formulario de edición de tareas
 const closeForm = document.querySelector("#close").addEventListener("clic", closeFormEdit);
-
+  
 //Función muestra el formulario de edición
 function viewTaskEdit(taskEdit, taskId) {
   document.getElementById("IngresaTarea").style.display = "none"; //Oculta el formulario de ingresar una nueva tarea
   document.getElementById("editarTarea").style.display = "flex"; //Muestra el formulario de editar una tarea
-
   let tareaEditar = document.getElementById("tareaEdit");
   let tareaID = document.getElementById("tareaID");
   tareaEditar.value = taskEdit;
   tareaID.value = taskId;
 }
+
 
 //Función para cerrar el formulario de editar las tareas
 function closeFormEdit() {
@@ -168,33 +183,48 @@ function closeFormEdit() {
 }
 
 //Selecciona el formulario de editar las tareas y a su vez cuando se hace el submit llama la funcion de updateTask.
-const formEdit = document.querySelector("#editarTarea").addEventListener("submit", updateTask);
 //Actualiza las tareas
-function updateTask(event) {
+document.querySelector("#botonEdit").addEventListener("click", updateTask);
+function updateTask() {
+  let tareaEditar = document.getElementById("tareaEdit").value;
+  let tareaID = document.getElementById("tareaID").value;
+
+  if (tareaEditar != null && tareaEditar != "") {
+
+      itemLocalStorage().then(tasks => {
+        
+        tasks.forEach(taskk => {
+
+          if (taskk.id === tareaID) {
+            taskk.tarea = tareaEditar;
+            }
+          });
+      
+        const taskUpdated = tasks.find(taskk => taskk.id === tareaID);
+        
+        fetch(`http://localhost:3000/tasks/${tareaID}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(taskUpdated) // Enviar solo la tarea 
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          //console.log('Updated task:', data);
+          itemLocalStorage().then(updatedTasks => {
+            displayTask(updatedTasks);
+          });
+        })
+        .catch(error => console.error('Error:', error));
+      });
   
-  event.preventDefault();
-
-  const form = event.target;
-
-  const formData = new FormData(form);
-
-  const task = {};
-
-  formData.forEach((value, key) => (task[key] = value));
-
-  if (task.tarea != null && task.tarea != "") {
     
-    let tareas = itemLocalStorage();
-
-    tareas.forEach((taskStorage) => {
-      if (taskStorage.id === Number(task.id)) {
-        taskStorage.tarea = task.tarea;
-      }
-    });
-
-    saveLocalStorage(tareas);
-    displayTask(tareas);
-    form.reset();
 
     document.getElementById("IngresaTarea").style.display = "flex";
     document.getElementById("editarTarea").style.display = "none";
@@ -210,7 +240,25 @@ function deleteTarea(taskId) {
 
   if (!confirmar) return;
 
-  const taskStorage = itemLocalStorage();
+  fetch(`http://localhost:3000/tasks/${taskId}`, {
+    method: 'DELETE'
+  })
+   .then(response => {
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+   .then(data => {
+    //console.log('Deleted task:', data);
+      itemLocalStorage().then(updatedTasks => {
+        displayTask(updatedTasks);
+      });
+    })
+   .catch(error => console.error('Error:', error));
+
+
+  /*const taskStorage = itemLocalStorage();
 
   const newsTask = taskStorage.filter((task) => task.id !== Number(taskId)); //Devuelve un nuevo array con todas las  tareas menos la que coincide con el id que pasamos por parametro
 
@@ -220,7 +268,7 @@ function deleteTarea(taskId) {
     displayTask(newsTask);
   } else {
     alert("No se pudo borrar la tarea.");
-  }
+  }*/
 }
 
 

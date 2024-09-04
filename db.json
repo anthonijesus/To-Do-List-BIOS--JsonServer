@@ -1,0 +1,28 @@
+{
+  "tasks": [
+    {
+      "id": "1725056893607",
+      "fecha": "30/8/2024",
+      "tarea": "hola",
+      "status": true
+    },
+    {
+      "id": "1725056909291",
+      "fecha": "30/8/2024",
+      "tarea": "Trabajar",
+      "status": true
+    },
+    {
+      "id": "1725449075144",
+      "fecha": "4/9/2024",
+      "tarea": "To-do",
+      "status": false
+    },
+    {
+      "id": "1725449084530",
+      "fecha": "4/9/2024",
+      "tarea": "prueba",
+      "status": false
+    }
+  ]
+}
